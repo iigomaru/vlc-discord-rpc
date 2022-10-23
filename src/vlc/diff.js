@@ -12,6 +12,7 @@ var detectVlc = true;
 const VLCClient = new VLC.VLCClient(config.vlc);
 // last check
 const last = {
+  title: '',
   filename: '',
   now_playing: '',
   state: '',
@@ -39,6 +40,10 @@ module.exports = (callback) => {
           // check state
           log('VLC\'s state updated');
           callback(status, true);
+        } else if (meta.title !== last.title) {
+          // check title
+          log('VLC\'s title updated');
+          callback(status, true);
         } else if (
           status.time - (last.time + config.rpc.updateInterval / 1000)
           > 3 || last.time > status.time
@@ -53,10 +58,12 @@ module.exports = (callback) => {
           last.volume = status.volume;
         } else callback(status, false);
         last.filename = status.information ? meta.filename : undefined;
+        last.title = meta.title;
         last.now_playing = meta.now_playing;
-      } else callback(status, last.state !== status.state);
+      } else callback(status);
       last.state = status.state;
       last.time = status.time;
+
     })
     .catch((err) => {
       if(err.code === "ECONNREFUSED") {

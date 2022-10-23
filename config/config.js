@@ -27,7 +27,7 @@ module.exports = {
 
     // If true, VLC will not be opened for you.
     // Note: You must set a password
-    detached: false,
+    detached: true,
 
     // Changes the big icon of the rich presence
     // Some of the available icons are: vlc, vlcflat, vlcblue, vlcneon, vlcxmas
@@ -38,7 +38,7 @@ module.exports = {
   vlc: {
 
     // If no password is given, a random password is used
-    password: '',
+    password: 'PASSWORD',
 
     // This must correspond with the port VLC's web interface uses
     port: 8080,
